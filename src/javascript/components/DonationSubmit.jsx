@@ -1,31 +1,36 @@
 import React from 'react';
 import axios from 'axios';
+const { CURRENCY_ISO_CODE} = require('../utils/constant.js');
 
 function DonationsSubmit() {
 
     const handleDonationSend = async (e) => {
         const senderName = document.getElementById('senderName').value;
         const amount = document.getElementById('amount').value;
-        const currency = document.getElementById('currency').value;
+        const currency = document.getElementById('currency').value.toUpperCase();
         const messageContent = document.getElementById('messageContent').value;
 
-        try {
-            let response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/message/foreign`,
-                {
-                    senderName,
-                    amount,
-                    currency,
-                    messageContent
-                });
-
-                // if(response.status === 200) {
-                //     alert(`Your original donations was in ${response.data.translationData.originalLanguage}. \nDonation sent: ${response.data.translationData.translatedText}`);
-                // }
-        }
-        catch (error) {
-            alert('Something went wrong');
-            console.log(error);
+        if(!CURRENCY_ISO_CODE[currency]){
+            alert('Invalid currency!');
+        } else {
+            try {
+                let response = await axios.post(
+                    `${process.env.REACT_APP_API_URL}/messages/donate`,
+                    {
+                        senderName,
+                        amount,
+                        currency,
+                        messageContent
+                    });
+    
+                    if(response.status === 200) {
+                        alert(`Thank you for donating ${response.data.translationData.amountUKR} UAH!`);
+                    }
+            }
+            catch (error) {
+                alert('Something went wrong');
+                console.log(error);
+            }
         }
     }
 
@@ -69,7 +74,7 @@ function DonationsSubmit() {
             </form>
 
             <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2 capitalize"
+                        className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2 capitalize"
                         onClick={handleDonationSend}>
                         SUBMIT
                     </button>

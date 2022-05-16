@@ -19,7 +19,7 @@ function DonationsList() {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get(
-                `http://localhost:8082/messages`,
+                `${process.env.REACT_APP_API_URL}/messages`,
             );
 
             if (result.data.data) {
@@ -44,14 +44,14 @@ function DonationsList() {
                             ) : null}
                             <div className="relative flex space-x-6 content-center">
                                 <span
-                                    className={'h-12 w-12 rounded-full flex items-center justify-center ring-8 ring-white bg-green-500'}>
+                                    className={'h-12 w-12 rounded-full flex items-center justify-center bg-green-500'}>
                                     <CashIcon className="h-5 w-5 text-white" aria-hidden="true" />
                                 </span>
                                 <div className="min-w-0 flex-1 flex justify-between space-x-4">
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-sm ">
                                         <span className="text-lg text-gray-900 font-medium">THANK YOU</span>
                                         <br></br>
-                                        <span className="font-medium">
+                                        <span className="font-medium text-black-200">
                                             {`${donation.senderName} have donated ${donation.amount} ${donation.currency}`}
                                         </span>
                                     </p>
