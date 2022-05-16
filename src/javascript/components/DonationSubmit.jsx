@@ -24,7 +24,8 @@ function DonationsSubmit() {
                     });
     
                     if(response.status === 200) {
-                        alert(`Thank you for donating ${response.data.translationData.amountUKR} UAH!`);
+                        alert(`Thank you for donating ${response.data.donateData.amountUKR} UAH!`);
+                        window.location.reload();
                     }
             }
             catch (error) {
